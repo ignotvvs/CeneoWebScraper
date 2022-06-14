@@ -4,11 +4,6 @@ import json
 import os
 from app.models.product import Product
 
-
-
-        
-
-
 @app.route('/')
 @app.route('/index')
 def index():
@@ -40,5 +35,5 @@ def author():
     return render_template("author.html.jinja")
 @app.route('/product/<product_id>')
 def product(product_id):
-    
-    return render_template("product.html.jinja", product_id=product_id, stats=stats, opinions=opinions)
+    return render_template("product.html.jinja", product_id=product_id)
+    #return render_template("product.html.jinja", product_id=product_id, stats=stats, opinions=opinions)
