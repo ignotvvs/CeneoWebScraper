@@ -23,34 +23,10 @@ class Opinion():
         return self    
         
     def __str__(self) -> str:
-        text = f"""Opinion ID:     {self.opinion_id}
-        Author:         {self.author}
-        Recommendation: {self.recommendation}
-        Stars:          {self.stars} 
-        Content:        {self.content} 
-        Useful:         {self.useful} 
-        Useless:        {self.useless} 
-        Published:      {self.published}
-        Purchased:      {self.purchased}
-        Pros:           {self.pros} 
-        Cons:           {self.cons}"""   
-        return text
+        return f"opinion_id: {self.opinion_id}<br>" + "<br>".join(f"{key}: {str(getattr(self, key))}" for key in selectors.keys())
 
     def __repr__(self) -> str:
-        return f"Opinion({self.opinion_id},{self.author},{self.recommendation},{self.stars},{self.content},{self.useful},{self.useless},{self.published},{self.purchased},{self.pros},{self.cons})"    
+        return f"Opinion(opinion_id={self.opinion_id}, " + ", ".join(f"{key}={str(getattr(self, key))}" for key in selectors.keys()) + ")"
 
     def to_dict(self) -> dict:
-        toDict = {
-            "opinion_id": self.opinion_id,
-            "author": self.author,
-            "recommendation": self.recommendation,
-            "stars": self.stars, 
-            "content": self.content, 
-            "useful": self.useful, 
-            "useless": self.useless,
-            "published": self.published,
-            "purchased": self.purchased,
-            "pros": self.pros, 
-            "cons": self.cons,
-        }
-        return toDict
+        return {"opinion_id": self.opinion_id} | {key: getattr(self, key) for key in selectors.keys()}
