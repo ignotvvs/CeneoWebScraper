@@ -27,28 +27,30 @@ class Product():
         response = requests.get(url)
         page = BeautifulSoup(response.text, "html.parser")
         self.product_name = get_item(page,"h1.product-top__product-info__name")
-        
+        print(self.product_id)
         return self
 
     def extract_opinions(self):
+        
         url = f"https://www.ceneo.pl/{self.product_id}#tab=reviews"
-        while(url):        
+        while(url):
             response = requests.get(url)
             page = BeautifulSoup(response.text, "html.parser")
             opinions = page.select("div.js_product-review")
-
             for opinion in opinions:
-                single_opinion = Opinion().extract_opinions(opinion)
-                self.opinions.append(single_opinion)   
+                # to skip ai highlight
+                if not opinion["class"].count("user-post--highlight"):
+                    single_opinion = Opinion().extract_opinions(opinion)
+                    self.opinions.append(single_opinion)  
             try:
-                url = "https://www.ceneo.pl" + get_item("a.pagination__next")["href"]
+                url = "https://www.ceneo.pl" + get_item(page, "div.pagination > a.pagination__next", attribute="href")
             except TypeError:
                 url = None    
         return self   
 
     def opinions_to_df(self):
         opinions = pd.read_json(json.dumps([opinion.to_dict() for opinion in self.opinions]))
-        opinions["stars"] = opinions["stars"].map(lambda x: float(x.split("/")[0].replace(",",".")))
+        opinions["stars"] = opinions["stars"].map(lambda x: float(x.split("/")[0].replace(",",".")) if x else 0)
         return opinions
 
     def calculate_stats(self):

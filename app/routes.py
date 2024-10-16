@@ -30,9 +30,6 @@ def extract():
 def products():
     products = [filename.split(".")[0] for filename in os.listdir("app/opinions")]
     return render_template("products.html.jinja",products=products)
-@app.route('/author')
-def author():
-    return render_template("author.html.jinja")
 @app.route('/product/<product_id>')
 def product(product_id):
     product = Product(product_id)

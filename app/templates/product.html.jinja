@@ -1,4 +1,11 @@
 {% extends "base.html.jinja" %}
 {% block content %}
-    <p>{{product_id}}</p>
+    <div>
+        <p><strong>ID produktu: </strong> {{stats.product_id}}</p>
+        <p><strong>Nazwa produktu: </strong> {{stats.product_name}}</p>
+        <p><strong>Liczba opinii: </strong> {{stats.opinions_count}}</p>
+        <p><strong>Ilość zalet: </strong> {{stats.pros_count}}</p>
+        <p><strong>Ilość wad: </strong> {{stats.cons_count}}</p>
+        <p><strong>Średnia ocena: </strong> {{stats.average_score}}</p>
+    </div>
 {% endblock content %}
